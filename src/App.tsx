@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Add from "./Components/Add";
 import All from "./Components/All";
+import Login from "./Components/Auth/Login";
+import SignUp from "./Components/Auth/SignUp";
+import ProtectedRoutes from "./Components/ProtectedRoutes";
 import Sidebar from "./Components/Sidebar";
 import SingleItem from "./Components/SingleItem";
 import ItemsContextProvider from "./context";
+import AuthContextProvider from "./context/AuthContext";
 
 function App() {
   const [sidebarExpand, setSidebarExpand] = useState<boolean>(true);
@@ -14,22 +18,22 @@ function App() {
   };
 
   return (
+    // <AuthContextProvider>
     <ItemsContextProvider>
       <div className="App">
-        <Sidebar
-          handleSidebarState={handleSidebarState}
-          sidebarExpand={sidebarExpand}
-        />
-        <div className={`Routes ${sidebarExpand ? "" : "sidebar-compress"}`}>
-          <Routes>
+        <Routes>
+          <Route path="auth" element={<Login />} />
+          <Route path="register" element={<SignUp />} />
+          <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<All />} />
             <Route path="items">
               <Route path=":singleItem" element={<SingleItem />} />
             </Route>
             <Route path="add" element={<Add />} />
-          </Routes>
-        </div>
+          </Route>
+        </Routes>
       </div>
+      {/* </AuthContextProvider> */}
     </ItemsContextProvider>
   );
 }

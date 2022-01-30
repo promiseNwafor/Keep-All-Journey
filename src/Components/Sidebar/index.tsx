@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import "./styles.css";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface ISidebarProps {
   handleSidebarState: () => void;
@@ -18,7 +19,19 @@ interface ISidebarProps {
 const Sidebar: FC<ISidebarProps> = ({ handleSidebarState, sidebarExpand }) => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const dropdownToggle = () => setDropdownOpen((prevState) => !prevState);
+  const { logOut } = useAuthContext();
   let { pathname } = useLocation();
+
+  const handleLogOut = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    try {
+      await logOut();
+      localStorage.removeItem("user");
+      window.location.reload();
+    } catch (err) {
+      console.log(err, "error");
+    }
+  };
 
   return (
     <div className={`Sidebar ${sidebarExpand ? "" : "sidebar-compress"}`}>
@@ -26,24 +39,29 @@ const Sidebar: FC<ISidebarProps> = ({ handleSidebarState, sidebarExpand }) => {
       <div className="sidebar-items">
         {SidebarData.map((data) => {
           return (
-            <>
-              <div
-                className={`sidebar-item ${
-                  pathname === data.path ? "active" : ""
-                }`}
-                key={data.id}
-              >
-                <Link to={`${data.path}`} className="d-flex align-items-center">
-                  <i className={`${data.iconClass}`}></i>
-                  <p className="m-3">{data.title}</p>
-                </Link>
-              </div>
-            </>
+            <div
+              className={`sidebar-item ${
+                pathname === data.path ? "active" : ""
+              }`}
+              key={data.id}
+            >
+              <Link to={`${data.path}`} className="d-flex align-items-center">
+                <i className={`${data.iconClass}`}></i>
+                <p className="m-3">{data.title}</p>
+              </Link>
+            </div>
           );
         })}
       </div>
       <div className="sidebar-item sidebar-foot">
-        <Link to={`/`} className="d-flex align-items-center">
+        <div className="d-flex align-items-center">
+          <i className="fas fa-user"></i>
+          <p className="m-3" onClick={(e) => handleLogOut(e)}>
+            Logout
+          </p>
+        </div>
+
+        {/* <Link to={`/`} className="d-flex align-items-center">
           {sidebarExpand ? (
             <i className="fas fa-user"></i>
           ) : (
@@ -56,11 +74,13 @@ const Sidebar: FC<ISidebarProps> = ({ handleSidebarState, sidebarExpand }) => {
               <DropdownMenu>
                 <DropdownItem header>Settings</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem header>Logout</DropdownItem>
+                <DropdownItem header>
+                  <p onClick={(e) => handleLogOut(e)}>Logout</p>
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           )}
-          <p className="m-3">
+          <p onClick={(e) => handleLogOut(e)} className="m-3">
             <Dropdown isOpen={dropdownOpen} toggle={dropdownToggle}>
               <DropdownToggle caret>Account</DropdownToggle>
               <DropdownMenu>
@@ -70,7 +90,7 @@ const Sidebar: FC<ISidebarProps> = ({ handleSidebarState, sidebarExpand }) => {
               </DropdownMenu>
             </Dropdown>
           </p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

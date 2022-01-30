@@ -22,6 +22,10 @@
   padding-top: 60px;
 }
 
+.Sidebar .sidebar-item:hover {
+  background-color: rgb(24, 42, 51);
+}
+
 .Sidebar .sidebar-item.active {
   color: rgb(245, 135, 135);
   font-size: 18px;
@@ -35,6 +39,10 @@
 .Sidebar .sidebar-foot {
   position: absolute;
   bottom: 1%;
+}
+
+.Sidebar .sidebar-foot p {
+  cursor: pointer;
 }
 
 .Sidebar a {

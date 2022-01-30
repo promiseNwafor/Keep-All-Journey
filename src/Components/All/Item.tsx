@@ -21,6 +21,7 @@ const Item: FC<ItemProps> = ({ item }) => {
   const { items, setItems } = useItemsContext();
 
   const toggleEdit = () => setShowEdit(!showEdit);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditState((prevState) => ({

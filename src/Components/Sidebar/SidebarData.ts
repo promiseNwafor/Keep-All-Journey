@@ -13,10 +13,4 @@ export const SidebarData: ISidebarData[] = [
         path: '/add',
         iconClass: 'fas fa-folder-plus',
     },
-    {
-        id: 2,
-        title: 'All Items',
-        path: '/',
-        iconClass: 'fas fa-border-all',
-    },
 ]

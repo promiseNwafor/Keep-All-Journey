@@ -34,7 +34,7 @@ const Add = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="body">
-          <Form.Label>Body</Form.Label>
+          <Form.Label>Note</Form.Label>
           <Form.Control ref={bodyRef} type="text" placeholder="Body" />
         </Form.Group>
         <Button variant="primary" type="submit">
