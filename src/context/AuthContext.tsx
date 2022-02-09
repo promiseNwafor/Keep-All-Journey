@@ -1,26 +1,75 @@
 import { createContext, FC, useContext, useEffect, useState } from "react";
-import { IAuthContext, IUser } from "../utils/interfaces";
+import { IAuthContext, IAuthErrors, IUser } from "../utils/interfaces";
 import {
   createUserWithEmailAndPassword,
+  updateProfile,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../libs/firebase.config";
+import photo from "../assets/photo.jpg";
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthContextProvider: FC = ({ children }) => {
   const [user, setUser] = useState<object | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<IAuthErrors>({
+    login: { code: "" },
+    register: { code: "" },
+    logout: { code: "" },
+  });
 
-  const signUp = ({ email, password }: IUser) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async ({ name, email, password }: IUser) => {
+    try {
+      setLoading(true);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await updateProfile(user, {
+        displayName: name,
+        photoURL: photo,
+      });
+    } catch (err: any) {
+      setErrors({
+        login: { code: "" },
+        register: err,
+        logout: { code: "" },
+      });
+      console.log(err);
+    }
+    setLoading(false);
   };
-  const authenticate = ({ email, password }: IUser) => {
-    return signInWithEmailAndPassword(auth, email, password);
+
+  const authenticate = async ({ email, password }: IUser) => {
+    try {
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log(err, "error");
+      setErrors({
+        login: err,
+        register: { code: "" },
+        logout: { code: "" },
+      });
+    }
+    setLoading(false);
   };
+
   const logOut = () => {
-    return signOut(auth);
+    try {
+      signOut(auth);
+    } catch (err) {
+      console.log(err, "error");
+      setErrors({
+        login: { code: "" },
+        register: { code: "" },
+        logout: err,
+      });
+    }
   };
 
   useEffect(() => {
@@ -37,7 +86,16 @@ const AuthContextProvider: FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signUp, authenticate, logOut, user }}>
+    <AuthContext.Provider
+      value={{
+        signUp,
+        authenticate,
+        logOut,
+        user,
+        errors,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

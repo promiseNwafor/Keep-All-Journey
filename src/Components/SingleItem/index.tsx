@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useItemsContext } from "../../context";
 import { IItems } from "../../utils/interfaces";
 import { card } from "../../utils/styles";
@@ -8,13 +8,13 @@ import { card } from "../../utils/styles";
 const SingleItem = () => {
   const { state }: any = useLocation();
   const item: IItems = state.item;
-  const { items, setItems, handleDelete } = useItemsContext();
+  const { editItem, deleteItem } = useItemsContext();
+  const navigate = useNavigate();
 
   const [editState, setEditState] = useState<IItems>({
-    id: item.id,
     title: item.title,
     body: item.body,
-    date: new Date().toLocaleDateString(),
+    date: item.date,
   });
   const [showEdit, setShowEdit] = useState<boolean>(false);
 
@@ -29,10 +29,14 @@ const SingleItem = () => {
 
   const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let index = items.indexOf(item);
-    items[index] = editState;
-    setItems((prevState) => [...prevState]);
+    editItem(item.id as string, editState);
     toggleEdit();
+    navigate(`/`);
+  };
+
+  const handleDelete = (id: string) => {
+    deleteItem(id);
+    navigate(`/`);
   };
 
   return (
@@ -46,7 +50,10 @@ const SingleItem = () => {
                 <small className="m-2" onClick={toggleEdit}>
                   Edit
                 </small>
-                <small className="" onClick={() => handleDelete(item.id)}>
+                <small
+                  className=""
+                  onClick={() => handleDelete(item.id as string)}
+                >
                   Delete
                 </small>
               </div>
@@ -81,6 +88,16 @@ const SingleItem = () => {
                 onChange={handleInputChange}
                 value={editState?.body}
                 placeholder="Body"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="date">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="date"
+                onChange={handleInputChange}
+                value={editState?.date}
+                placeholder="Date"
               />
             </Form.Group>
           </Modal.Body>

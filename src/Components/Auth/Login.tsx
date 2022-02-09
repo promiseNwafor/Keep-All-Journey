@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { useAuthContext } from "../../context/AuthContext";
 import { IUser } from "../../utils/interfaces";
@@ -8,11 +8,11 @@ import { IUser } from "../../utils/interfaces";
 const userDetailsState: IUser = {
   email: "",
   password: "",
-};
+} as IUser;
 
 const Login = () => {
   const [userDetails, setUserDetails] = useState<IUser>(userDetailsState);
-  const { authenticate } = useAuthContext();
+  const { authenticate, errors, loading } = useAuthContext();
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,12 +22,8 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await authenticate(userDetails);
-      navigate("/");
-    } catch (err) {
-      console.log(err, "error");
-    }
+    await authenticate(userDetails);
+    navigate("/", { replace: true });
   };
 
   return (
@@ -53,7 +49,13 @@ const Login = () => {
               onChange={(e) => handleInputChange(e)}
             />
           </FormGroup>
-          <Button type="submit">Login</Button>
+          <div className="error">{<h3>{errors?.login?.code}</h3>}</div>
+          <div className="d-flex align-items-center justify-content-between">
+            <Button type="submit">{loading ? "Loading..." : ""} Login</Button>
+            <p>
+              <Link to={"/register"}>Register here</Link>
+            </p>
+          </div>
         </Form>
       </Container>
     </>

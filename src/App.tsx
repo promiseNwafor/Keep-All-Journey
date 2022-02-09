@@ -1,24 +1,14 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Add from "./Components/Add";
 import All from "./Components/All";
 import Login from "./Components/Auth/Login";
 import SignUp from "./Components/Auth/SignUp";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
-import Sidebar from "./Components/Sidebar";
 import SingleItem from "./Components/SingleItem";
 import ItemsContextProvider from "./context";
-import AuthContextProvider from "./context/AuthContext";
 
 function App() {
-  const [sidebarExpand, setSidebarExpand] = useState<boolean>(true);
-
-  const handleSidebarState = () => {
-    setSidebarExpand(!sidebarExpand);
-  };
-
   return (
-    // <AuthContextProvider>
     <ItemsContextProvider>
       <div className="App">
         <Routes>
@@ -33,7 +23,6 @@ function App() {
           </Route>
         </Routes>
       </div>
-      {/* </AuthContextProvider> */}
     </ItemsContextProvider>
   );
 }

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useItemsContext } from "../../context";
@@ -5,13 +6,18 @@ import { useAuthContext } from "../../context/AuthContext";
 import Item from "./Item";
 
 const All = () => {
-  const { items } = useItemsContext();
+  const { items, getItems } = useItemsContext();
   const { user } = useAuthContext();
+
+  useEffect(() => {
+    getItems();
+  }, [user]);
 
   return (
     <>
       <Container>
-        <h1>Welcome {user.email}</h1>
+        <h1>Welcome {user?.displayName}</h1>
+        <img src={`${user?.photoURL}`} width={100} alt="" />
         <div className="Items-container">
           {items?.map((item) => {
             return <Item key={item.id} item={item} />;
