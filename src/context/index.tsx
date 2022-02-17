@@ -1,5 +1,5 @@
 import { createContext, FC, useContext, useState } from "react";
-import { IItems, IItemsContext } from "../utils/interfaces";
+import { IItems, IItemsContext, IItemsState } from "../utils/interfaces";
 import { db } from "../libs/firebase.config";
 import {
   collection,
@@ -24,20 +24,8 @@ const ItemsContextProvider: FC = ({ children }) => {
   const itemsCollectionRef = collection(db, "All Items");
   const { user } = useAuthContext();
 
-  const addItem = async ({ title, body, date }: IItems) => {
+  const addItem = async ({ title, body, date }: IItemsState) => {
     await addDoc(itemsCollectionRef, { title, body, date, userId: user?.uid });
-    // await setDoc(doc(db, "All Items", user?.uid), {
-    //   title,
-    //   body,
-    //   date,
-    // });
-    // const docRef = doc(db, "All Items", user?.uid);
-    // const colRef = collection(docRef, `${date} - ${title}`);
-    // addDoc(colRef, {
-    //   title,
-    //   body,
-    //   date,
-    // });
   };
 
   const editItem = async (id: string, item: IItems) => {

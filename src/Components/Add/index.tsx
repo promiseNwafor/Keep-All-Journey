@@ -1,11 +1,16 @@
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useRef, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+// import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useItemsContext } from "../../context";
-import { IItems } from "../../utils/interfaces";
+import { IItems, IItemsState } from "../../utils/interfaces";
 
 const Add = () => {
-  const [state, setState] = useState<IItems>({
+  const [state, setState] = useState<IItemsState>({
     title: "",
     body: "",
     date: new Date().toString(),
@@ -25,51 +30,69 @@ const Add = () => {
 
   const handleAddItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addItem(state);
+    await addItem(state as IItems);
     navigate("/");
     (titleRef.current as HTMLInputElement).value = "";
     (bodyRef.current as HTMLInputElement).value = "";
   };
 
   return (
-    <Container>
-      <Form onSubmit={(e) => handleAddItem(e)}>
-        <Form.Group className="mb-3" controlId="title">
-          <Form.Label>Enter Title</Form.Label>
-          <Form.Control
-            type="text"
-            name="title"
-            onChange={handleInputChange}
-            value={state?.title}
-            placeholder="Enter title"
+    <>
+      <Paper
+        sx={{
+          maxWidth: 600,
+          margin: "auto",
+          marginTop: 3,
+          p: 4,
+        }}
+      >
+        <form onSubmit={(e) => handleAddItem(e)}>
+          <Typography align="center" children={"Add Item"} variant="h4" />
+          <Box my={4} component={"div"}>
+            <TextField
+              id="title"
+              type={"text"}
+              label="Title"
+              fullWidth
+              name="title"
+              sx={{ marginBottom: 2 }}
+              onChange={handleInputChange}
+              value={state?.title}
+            />
+            <TextField
+              id="body"
+              type={"text"}
+              label="Detail"
+              multiline
+              rows={5}
+              fullWidth
+              name="body"
+              sx={{ marginBottom: 2 }}
+              onChange={handleInputChange}
+              value={state?.body}
+            />
+            <TextField
+              id="date"
+              type={"date"}
+              fullWidth
+              name="date"
+              onChange={handleInputChange}
+              value={state?.date}
+            />
+          </Box>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            children={"Add"}
+            sx={{
+              fontSize: 20,
+            }}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="body">
-          <Form.Label>Body</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={5}
-            name="body"
-            onChange={handleInputChange}
-            value={state?.body}
-            placeholder="Body"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="date">
-          <Form.Label>Date</Form.Label>
-          <Form.Control
-            type="date"
-            name="date"
-            onChange={handleInputChange}
-            value={state?.date}
-            placeholder="Date"
-          />
-        </Form.Group>
-        <Button className="w-50" variant="secondary" type="submit">
-          Add
-        </Button>
-      </Form>
-    </Container>
+        </form>
+      </Paper>
+    </>
   );
 };
 

@@ -5,20 +5,29 @@ export interface ISidebarData {
     id: number,
     title: string,
     path: string,
-    iconClass: string
+    icon: any
 }
+
 export interface IUser {
     name: string,
     email: string,
     password: string
 }
 
+export interface IItemsState {
+    title: string
+    body: string
+    date: string
+  }
+
 export interface IItems {
-    id?: string
+    id: string
     title: string
     body: string
     date: string
 }
+
+
 
 export interface IItemsContext {
     items: IItems[]
@@ -38,4 +47,21 @@ export interface IAuthContext {
     user: any,
     loading: boolean,
     errors: IAuthErrors,
+}
+
+export type InputVariants = "standard" | "filled" | "outlined" | undefined;
+export type ButtonVariants = "text" | "outlined" | "contained" | undefined
+
+export interface TextFieldProps {
+    variant: InputVariants;
+    sx?: {};
+    id: string;
+    otherProps: {
+      label: string;
+      required?: boolean;
+      fullWidth?: boolean;
+      type?: string;
+      error?: boolean;
+      autoFocus?: boolean;
+    };
 }
