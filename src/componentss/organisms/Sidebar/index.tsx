@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import { useLocation } from "react-router-dom";

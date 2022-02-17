@@ -6,7 +6,7 @@ import SingleItem from "./Components/SingleItem";
 import ItemsContextProvider from "./context";
 import Auth from "./pages/Auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { red, purple, pink } from "@mui/material/colors";
+import { pink } from "@mui/material/colors";
 import Register from "./pages/Register";
 
 const theme = createTheme({

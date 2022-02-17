@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useItemsContext } from "../../context";
 import { useAuthContext } from "../../context/AuthContext";
 import Item from "./Item";

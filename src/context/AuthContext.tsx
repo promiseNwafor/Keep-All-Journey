@@ -8,7 +8,6 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../libs/firebase.config";
-import photo from "../assets/photo.jpg";
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 

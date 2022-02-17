@@ -21,7 +21,7 @@ const userDetailsState: IUser = {
 
 function Register() {
   const [userDetails, setUserDetails] = useState<IUser>(userDetailsState);
-  const { signUp, authenticate, errors, loading } = useAuthContext();
+  const { signUp } = useAuthContext();
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

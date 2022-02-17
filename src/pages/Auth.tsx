@@ -20,7 +20,7 @@ const userDetailsState: IUser = {
 
 function Auth() {
   const [userDetails, setUserDetails] = useState<IUser>(userDetailsState);
-  const { authenticate, errors, loading } = useAuthContext();
+  const { authenticate } = useAuthContext();
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

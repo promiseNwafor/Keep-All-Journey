@@ -4,9 +4,7 @@ import { db } from "../libs/firebase.config";
 import {
   collection,
   getDocs,
-  getDoc,
   addDoc,
-  setDoc,
   updateDoc,
   deleteDoc,
   doc,

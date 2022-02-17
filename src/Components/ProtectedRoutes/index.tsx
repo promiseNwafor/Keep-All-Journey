@@ -1,8 +1,7 @@
 import { Box, Container } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "../../componentss/organisms/Sidebar";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { useAuthContext } from "../../context/AuthContext";
 import MenuDropping from "../../componentss/molecules/MenuDropping";
 import Paper from "@mui/material/Paper";
@@ -18,7 +17,7 @@ const ProtectedRoutes = () => {
   const [sidebarExpand, setSidebarExpand] = useState<boolean>(true);
   const { logOut, user } = useAuthContext();
   let currentUser = localStorage.getItem("user");
-  const { items, setItems, getItems } = useItemsContext();
+  const { items, setItems } = useItemsContext();
 
   const handleSidebarState = () => {
     setSidebarExpand(!sidebarExpand);
@@ -41,6 +40,7 @@ const ProtectedRoutes = () => {
       }
     });
     searched.length > 0 && setItems(searched);
+    return searched;
   };
 
   return currentUser ? (
