@@ -24,6 +24,9 @@ const Sidebar: FC<ISidebarProps> = ({ handleSidebarState, sidebarExpand }) => {
     backgroundColor: "white",
     borderRight: "1px solid #ddd",
     transition: "width ease-in-out 200ms",
+    "@media(max-width: 600px)": {
+      display: "none",
+    },
   };
 
   const iconStyle = {

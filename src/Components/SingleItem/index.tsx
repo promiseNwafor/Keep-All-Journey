@@ -87,13 +87,26 @@ const SingleItem = () => {
                   width: 60,
                   height: 60,
                   bgcolor: "secondary.main",
+                  "@media(max-width: 600px)": {
+                    display: "none",
+                  },
                 }}
                 aria-label="recipe"
               >
                 R
               </Avatar>
             }
-            action={<Typography>{item.date}</Typography>}
+            action={
+              <Typography
+                sx={{
+                  "@media(max-width: 600px)": {
+                    fontSize: 12,
+                  },
+                }}
+              >
+                {item.date}
+              </Typography>
+            }
             title={
               <Stack direction="row" spacing={1}>
                 <Typography variant="h6" pb={1}>

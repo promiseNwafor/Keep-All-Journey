@@ -39,6 +39,7 @@ function Auth() {
       sx={{
         backgroundColor: "primary",
         width: 500,
+        maxWidth: "90%",
         margin: "auto",
         marginTop: 6,
       }}

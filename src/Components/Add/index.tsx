@@ -40,10 +40,14 @@ const Add = () => {
     <>
       <Paper
         sx={{
+          width: "90%",
           maxWidth: 600,
           margin: "auto",
           marginTop: 3,
           p: 4,
+          // "@media(max-width: 600px)": {
+          //   maxWidth: "80%",
+          // },
         }}
       >
         <form onSubmit={(e) => handleAddItem(e)}>

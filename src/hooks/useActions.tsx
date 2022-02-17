@@ -1,27 +1,22 @@
-import { FC, useState } from "react";
-import { IItems } from "../utils/interfaces";
+import { createContext, FC, useContext } from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-interface ItemProps {
-  item: IItems;
+export interface ItemProps {
+  isMobile: boolean;
 }
 
-const useActions: FC<ItemProps> = ({ item }) => {
-  const [editState, setEditState] = useState<IItems>({
-    id: item.id,
-    title: item.title,
-    body: item.body,
-    date: new Date().toLocaleDateString(),
-  });
+export const ActionsContext = createContext<ItemProps>({} as ItemProps);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+const UseActionsProvider: FC<ItemProps> = ({ children }) => {
+  const isMobile = useMediaQuery("(min-width:500px)");
 
-  return <div></div>;
+  return (
+    <ActionsContext.Provider value={{ isMobile }}>
+      {children}
+    </ActionsContext.Provider>
+  );
 };
 
-export default useActions;
+export default UseActionsProvider;
+
+export const useActions = () => useContext<ItemProps>(ActionsContext);

@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../componentss/organisms/Sidebar";
 import { useAuthContext } from "../../context/AuthContext";
 import MenuDropping from "../../componentss/molecules/MenuDropping";
@@ -10,7 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { useItemsContext } from "../../context";
 import Settings from "@mui/icons-material/Settings";
-import { blue } from "@mui/material/colors";
+import { blue, pink } from "@mui/material/colors";
+import MenuIcon from "@mui/icons-material/Menu";
+import Popover from "@mui/material/Popover";
+import { ListItemIcon } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import { SidebarData } from "../../componentss/organisms/Sidebar/SidebarData";
 
 const ProtectedRoutes = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -18,6 +25,30 @@ const ProtectedRoutes = () => {
   const { logOut, user } = useAuthContext();
   let currentUser = localStorage.getItem("user");
   const { items, setItems } = useItemsContext();
+  let { pathname } = useLocation();
+
+  const [anchorEl, setAnchorEl] = useState<boolean>(false);
+
+  const handleToggle = () => {
+    setAnchorEl(!anchorEl);
+  };
+
+  const listItemStyle = {
+    style: {
+      borderBottom: "1px solid #eee",
+    },
+    activeStyle: {
+      backgroundColor: pink[400],
+      color: "white",
+    },
+    hoverStyle: {
+      borderBottom: "1px solid #eee",
+      "&:hover": {
+        backgroundColor: pink[50],
+        color: pink[600],
+      },
+    },
+  };
 
   const handleSidebarState = () => {
     setSidebarExpand(!sidebarExpand);
@@ -56,13 +87,28 @@ const ProtectedRoutes = () => {
           component={"nav"}
         >
           <Container sx={{ display: "flex", justifyContent: "space-between" }}>
+            <IconButton
+              // aria-describedby={id}
+              onClick={handleToggle}
+              sx={{
+                fontSize: 30,
+                display: "none",
+                "@media(max-width: 600px)": {
+                  display: "flex",
+                },
+              }}
+              aria-label="menu"
+            >
+              <MenuIcon fontSize="inherit" />
+            </IconButton>
             <Paper
               component="form"
               sx={{
                 p: "0px 6px",
                 display: "flex",
                 alignItems: "center",
-                width: "40%",
+                width: "50%",
+                maxWidth: 400,
                 borderRadius: 30,
               }}
             >
@@ -92,6 +138,45 @@ const ProtectedRoutes = () => {
         </Box>
         <Outlet />
       </Box>
+      <Popover
+        open={anchorEl}
+        onClose={handleToggle}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        sx={{
+          top: 50,
+          left: -15,
+        }}
+      >
+        <Box width={"50vw"} minHeight={"80vh"}>
+          <List sx={{}}>
+            {SidebarData.map((data) => {
+              return (
+                <Link to={`${data.path}`} onClick={handleToggle} key={data.id}>
+                  <ListItem
+                    sx={
+                      pathname === data.path
+                        ? listItemStyle.activeStyle
+                        : listItemStyle.hoverStyle
+                    }
+                  >
+                    <ListItemIcon>
+                      <data.icon
+                        sx={{
+                          color: pathname === data.path ? "white" : "",
+                        }}
+                      />
+                    </ListItemIcon>
+                    {sidebarExpand && <ListItemText>{data.title}</ListItemText>}
+                  </ListItem>
+                </Link>
+              );
+            })}
+          </List>
+        </Box>
+      </Popover>
     </Box>
   ) : (
     <Navigate to="auth" />
