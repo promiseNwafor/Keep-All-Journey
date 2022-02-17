@@ -47,11 +47,8 @@ function Register() {
       <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSignUp(e)}>
         <Typography
           align="center"
-          color={"white"}
+          color={"primary"}
           children={"Register"}
-          sx={{
-            backgroundColor: "primary.dark",
-          }}
           variant="h2"
           py={2}
         />
@@ -116,11 +113,12 @@ function Register() {
           type="submit"
           fullWidth
           children={"Register"}
+          color="secondary"
           sx={{
             height: 80,
-            backgroundColor: "white",
+            backgroundColor: "primary.main",
             fontSize: 20,
-            "&:hover": { backgroundColor: "white" },
+            "&:hover": { color: "primary.main" },
           }}
         />
       </form>

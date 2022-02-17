@@ -31,7 +31,6 @@ const AuthContextProvider: FC = ({ children }) => {
       );
       await updateProfile(user, {
         displayName: name,
-        photoURL: photo,
       });
     } catch (err: any) {
       setErrors({

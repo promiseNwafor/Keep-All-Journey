@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Settings from "@mui/icons-material/Settings";
+// import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 interface IMenuDroppingProps {
@@ -94,12 +94,12 @@ const MenuDropping: FC<IMenuDroppingProps> = ({ handleLogOut, user }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleLogOut}>
           <ListItemIcon>
             <Logout fontSize="small" />

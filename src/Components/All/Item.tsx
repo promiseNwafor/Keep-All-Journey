@@ -8,7 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { pink } from "@mui/material/colors";
+import { blue, pink } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -58,11 +58,11 @@ const Item: FC<ItemProps> = ({ item }) => {
           pr: 2,
           border: `1px solid #fee`,
 
-          "&:hover": { border: `1px solid ${pink[400]}` },
+          "&:hover": { border: `1px solid ${pink[100]}` },
         }}
       >
         <CardHeader
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", width: "100%" }}
           onClick={() => navigate(`items/${item.id}`, { state: { item } })}
           avatar={
             <Avatar
@@ -75,7 +75,7 @@ const Item: FC<ItemProps> = ({ item }) => {
               }}
               aria-label="recipe"
             >
-              R
+              {item.title[0].toUpperCase()}
             </Avatar>
           }
           action={<Typography>{item.date}</Typography>}
@@ -86,13 +86,17 @@ const Item: FC<ItemProps> = ({ item }) => {
               </Typography>
               <Chip
                 label="category"
-                // avatar={<Avatar sx={{ bgColor: "primary" }}>M</Avatar>}
                 size="small"
-                color="secondary"
+                color="primary"
+                sx={{ backgroundColor: blue[300] }}
               />
             </Stack>
           }
-          subheader={<Typography>{item.body}</Typography>}
+          subheader={
+            <Typography noWrap sx={{ maxWidth: "30vw" }}>
+              {item.body}
+            </Typography>
+          }
         />
         <CardActions
           sx={{

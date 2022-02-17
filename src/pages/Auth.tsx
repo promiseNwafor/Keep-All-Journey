@@ -48,11 +48,7 @@ function Auth() {
           align="center"
           children={"Login"}
           variant="h1"
-          height={120}
-          color="white"
-          sx={{
-            backgroundColor: "primary.dark",
-          }}
+          color="primary"
         />
         <Box mx={2} my={4} component={"div"}>
           <TextField
@@ -102,11 +98,12 @@ function Auth() {
           type="submit"
           fullWidth
           children={"Login"}
+          color="secondary"
           sx={{
             height: 80,
-            backgroundColor: "white",
+            backgroundColor: "primary.main",
             fontSize: 20,
-            "&:hover": { backgroundColor: "white" },
+            "&:hover": { color: "primary.main" },
           }}
         />
       </form>

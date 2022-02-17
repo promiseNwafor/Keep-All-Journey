@@ -10,6 +10,8 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { useItemsContext } from "../../context";
+import Settings from "@mui/icons-material/Settings";
+import { blue } from "@mui/material/colors";
 
 const ProtectedRoutes = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -80,8 +82,9 @@ const ProtectedRoutes = () => {
               </IconButton>
             </Paper>
             <Box display={"flex"} sx={{}} component={"div"}>
-              <IconButton aria-label="menu">
-                <NotificationsActiveIcon fontSize="inherit" />
+              <IconButton sx={{ backgroundColor: blue[50] }} aria-label="menu">
+                {/* <NotificationsActiveIcon fontSize="inherit" /> */}
+                <Settings fontSize="inherit" />
               </IconButton>
               <MenuDropping user={user} handleLogOut={handleLogOut} />
             </Box>
