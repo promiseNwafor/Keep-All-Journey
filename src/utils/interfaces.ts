@@ -31,11 +31,13 @@ export interface IItems {
 
 export interface IItemsContext {
     items: IItems[]
+    itemsLoading: boolean,
     deleteItem: (id: string) => void
     addItem: ({}: IItems) => void
     editItem: (id: string, {}: IItems) => void
     getItems: () => void
     setItems: React.Dispatch<React.SetStateAction<IItems[]>>; 
+    searchFilter: (q: string) => void
 }
 
 export type IAuthErrors = {login: any, register: any, logout: any}

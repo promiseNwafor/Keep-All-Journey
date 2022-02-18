@@ -20,7 +20,8 @@ const userDetailsState: IUser = {
 
 function Auth() {
   const [userDetails, setUserDetails] = useState<IUser>(userDetailsState);
-  const { authenticate } = useAuthContext();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { authenticate, errors } = useAuthContext();
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,9 @@ function Auth() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     await authenticate(userDetails);
+    setLoading(false);
     navigate("/", { replace: true });
   };
 
@@ -95,10 +98,12 @@ function Auth() {
             </Link>
           </Grid>
         </Grid>
+        <Typography textAlign={"center"} sx={{ fontSize: 16 }} color={"error"}>
+          {errors.login.code}
+        </Typography>
         <Button
           type="submit"
           fullWidth
-          children={"Login"}
           color="secondary"
           sx={{
             height: 80,
@@ -106,7 +111,9 @@ function Auth() {
             fontSize: 20,
             "&:hover": { color: "primary.main" },
           }}
-        />
+        >
+          {loading ? "Signing in..." : "Login"}
+        </Button>
       </form>
     </Paper>
   );

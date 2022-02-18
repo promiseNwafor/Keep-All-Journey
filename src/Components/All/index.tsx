@@ -6,9 +6,10 @@ import { useAuthContext } from "../../context/AuthContext";
 import Item from "./Item";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import Skeleton from "@mui/material/Skeleton";
 
 const All = () => {
-  const { items, getItems } = useItemsContext();
+  const { items, getItems, itemsLoading } = useItemsContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -25,9 +26,17 @@ const All = () => {
 
   return (
     <Container>
+      {itemsLoading && (
+        <>
+          <Skeleton height={100} sx={{ backgroundColor: "#f0f0f0" }} />
+          <Skeleton height={100} sx={{ backgroundColor: "#f0f0f0" }} />
+          <Skeleton height={100} sx={{ backgroundColor: "#f0f0f0" }} />
+        </>
+      )}
       {items?.map((item) => {
         return <Item key={item.id} item={item} />;
       })}
+
       <Fab
         onClick={() => navigate(`/add`)}
         sx={fabStyle}

@@ -21,7 +21,8 @@ const userDetailsState: IUser = {
 
 function Register() {
   const [userDetails, setUserDetails] = useState<IUser>(userDetailsState);
-  const { signUp } = useAuthContext();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { signUp, errors } = useAuthContext();
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +32,11 @@ function Register() {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     await signUp(userDetails);
     // await authenticate(userDetails);
-    navigate("/", { replace: true });
+    setLoading(false);
+    navigate("/auth", { replace: true });
   };
 
   return (
@@ -110,10 +113,12 @@ function Register() {
             </Link>
           </Grid>
         </Grid>
+        <Typography textAlign={"center"} sx={{ fontSize: 16 }} color={"error"}>
+          {errors.register.code}
+        </Typography>
         <Button
           type="submit"
           fullWidth
-          children={"Register"}
           color="secondary"
           sx={{
             height: 80,
@@ -121,7 +126,9 @@ function Register() {
             fontSize: 20,
             "&:hover": { color: "primary.main" },
           }}
-        />
+        >
+          {loading ? "Signing up..." : "Register"}
+        </Button>
       </form>
     </Paper>
   );
